@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento de CLPs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <h1>Monitoramento de CLPs</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Status CLP</th>
+                <th>IP do CLP</th>
+                <th>Endereço do BIT</th>
+                <th>Status do BIT</th>
+                <th>Toggle BIT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Exemplo de linha da tabela -->
+            <tr>
+                <td><span class="status-indicator online"></span></td>
+                <td>172.17.85.114</td>
+                <td>B10:2/6</td>
+                <td><span class="status-indicator bit-off"></span></td>
+                <td><button class="toggle-button" onclick="toggleBit(this)">Toggle</button></td>
+            </tr>
+            <!-- Adicione mais linhas conforme necessário -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
