@@ -34,4 +34,3 @@ class ConexaoCLP:
     def __str__(self) -> str:
         return f'IP: {self.ip} | Bit: {self.tag_addr}'
 
-
