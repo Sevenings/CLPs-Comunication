@@ -15,14 +15,17 @@ def tag_status():
     clp_status = {'status': tag.status(), 'tag': tag.read()}
     return jsonify(clp_status)
 
-@app.route('/api/write-tag')
+@app.route('/api/write-tag',methods=['POST'])
 def write_tag():
     if 'state' not in request.json:
         return jsonify({'error': 'state not found'})
     else:
         state = request.json['state']
         tag.write(state)
-
+        response = {
+            'message':'deu certo',
+        }
+        return jsonify(response),200
 
 if __name__ == '__main__': 
     app.run(debug=True)
