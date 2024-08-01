@@ -15,7 +15,7 @@ def tag_status():
     clp_status = {'status': tag.status(), 'tag': tag.read()}
     return jsonify(clp_status)
 
-@app.route('/api/write-tag', method=('POST'))
+@app.route('/api/write-tag')
 def write_tag():
     if 'state' not in request.json:
         return jsonify({'error': 'state not found'})
