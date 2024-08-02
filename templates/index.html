@@ -28,7 +28,7 @@
                 <td><span class="status-indicator online"></span></td>
                 <td>172.17.85.114</td>
                 <td>B10:2/6</td>
-                <td><span class="status-indicator bit-off"></span></td>
+                <td><span class="status-indicator" id="status-indicator1"></span></td>
                 <td><button class="toggle-button" onclick="toggleBit(this)">Toggle</button></td>
             </tr>
             <!-- Adicione mais linhas conforme necessário -->
@@ -36,69 +36,72 @@
     </table>
 
     <script>
-document.addEventListener('DOMContentLoaded', function() {
+        function setState(state) {
+            const url = 'api/write-tag';  // Substitua com a URL da sua API
 
-});
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({state: state})
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Post Sucess:', data)
+                })
+                .catch(error => {
+                    console.error('Houve um problema com a requisição fetch post:', error);
+                });
+        }
 
 
-function getState() {
-    //const url = 'https://api.exemplo.com/dados';  // Substitua com a URL da sua API
-    const url = 'api/tag-status';  // Substitua com a URL da sua API
 
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.state);
-            return data;
-        })
-        .catch(error => {
-            console.error('Houve um problema com a requisição fetch get:', error);
+
+        function toggleBit(button) {
+            let bitStatus = document.getElementById('status-indicator1')
+
+            if (localState == true) {
+                console.log("[Button] Send: setState(false)")
+                setState(false);
+                bitStatus.style.backgroundColor = 'red'
+                localState = false;
+            } else {
+                console.log("[Button] Send: setState(true)")
+                setState(true);
+                bitStatus.style.backgroundColor = 'green'
+                localState = true;
+            }
+        }
+
+        function main(updateLocalState) {
+            const url = 'api/tag-status';  // Substitua com a URL da sua API
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('GetState Internal:', data);
+                    let bitStatus = document.getElementById("status-indicator1")
+                    if (data.tag == true) {
+                        bitStatus.style.backgroundColor = 'green';
+                    } else if (data.tag == false) {
+                        bitStatus.style.backgroundColor = 'red';
+                    }
+                    updateLocalState(data.tag);
+
+                })
+                .catch(error => {
+                    console.error('Houve um problema com a requisição fetch get:', error);
+                });
+            
+        }
+
+        let localState;
+        main(function (value) {
+            localState = value;
         });
-}
 
-
-function setState(state) {
-    const url = 'api/write-tag';  // Substitua com a URL da sua API
-
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ state: state })
-    })
-    .then(response => response.json())
-        .then(data => {
-            console.log('Post Sucess:', data)
-        })
-    .catch(error => {
-        console.error('Houve um problema com a requisição fetch post:', error);
-    });
-}
-
-
-
-
-function toggleBit(button) {
-    let row = button.closest('tr');
-    let bitStatus = row.querySelector('.status-indicator.bit-on, .status-indicator.bit-off');
-    
-    if (bitStatus.classList.contains('bit-on')) {
-        setState(false);
-    } else {
-        setState(true);
-    }
-
-    let state = getState();
-    if (state.tag) {
-        bitStatus.classList.remove('bit-off');
-        bitStatus.classList.add('bit-on');
-    } else {
-        bitStatus.classList.remove('bit-on');
-        bitStatus.classList.add('bit-off');
-    }
-}
-</script>
+    </script>
 
 </body>
 

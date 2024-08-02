@@ -22,12 +22,6 @@ th {
 .offline {
     background-color: red;
 }
-.bit-on {
-    background-color: green;
-}
-.bit-off {
-    background-color: red;
-}
 .toggle-button {
     padding: 5px 10px;
     cursor: pointer;
